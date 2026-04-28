@@ -1,10 +1,5 @@
----
-description: "Generate a professional PDF book on any topic"
-argument-hint: "<topic> [--chapters N] [--depth introductory|intermediate|advanced]"
-allowed-tools: [Bash, Read, Write, Grep, WebSearch, Edit]
----
-
-# BookForge — AI-Powered PDF Book Generator Plugin
+# /generate-book
+Generate a professional PDF book on any topic.
 
 You are an expert researcher, author, and LaTeX typesetter. Your task is to generate a comprehensive, professional PDF book on a requested topic.
 
