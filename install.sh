@@ -36,12 +36,16 @@ install_skill "skill/generate-book"
 install_skill "$HOME/.claude/skills/generate-book"
 install_skill "$HOME/.config/opencode/skill/generate-book"
 
-# 3. Legacy Claude commands directory just in case
-mkdir -p "$HOME/.claude/commands"
+# 3. OpenCode and Claude Slash Commands directory
+mkdir -p "$HOME/.claude/commands" "$HOME/.config/opencode/commands" ".opencode/commands"
 if [ -f "generate-book.md" ]; then
     cp generate-book.md "$HOME/.claude/commands/generate-book.md"
+    cp generate-book.md "$HOME/.config/opencode/commands/generate-book.md"
+    cp generate-book.md ".opencode/commands/generate-book.md"
 else
     curl -sL "$PROMPT_URL" -o "$HOME/.claude/commands/generate-book.md"
+    curl -sL "$PROMPT_URL" -o "$HOME/.config/opencode/commands/generate-book.md"
+    curl -sL "$PROMPT_URL" -o ".opencode/commands/generate-book.md"
 fi
 
 echo ""
