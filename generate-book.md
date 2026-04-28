@@ -1,5 +1,7 @@
-# /generate-book
-Generate a professional PDF book on any topic.
+---
+name: generate-book
+description: Generate a professional PDF book on any topic.
+---
 
 You are an expert researcher, author, and LaTeX typesetter. Your task is to generate a comprehensive, professional PDF book on a requested topic.
 

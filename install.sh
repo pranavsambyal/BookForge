@@ -11,29 +11,34 @@ PROMPT_URL="https://raw.githubusercontent.com/pranavsambyal/BookForge/main/gener
 
 INSTALLED=false
 
-install_prompt() {
+install_skill() {
     local target_dir="$1"
     mkdir -p "$target_dir"
-    echo "Downloading BookForge to $target_dir/generate-book.md..."
-    curl -sL "$PROMPT_URL" -o "$target_dir/generate-book.md"
+    if [ -f "generate-book.md" ]; then
+        echo "Copying local BookForge to $target_dir/SKILL.md..."
+        cp generate-book.md "$target_dir/SKILL.md"
+    else
+        echo "Downloading BookForge to $target_dir/SKILL.md..."
+        curl -sL "$PROMPT_URL" -o "$target_dir/SKILL.md"
+    fi
     echo "✔ Installed successfully in $target_dir"
     INSTALLED=true
 }
 
 # Check if we are inside a directory with .claude or .opencode
 if [ -d ".claude" ]; then
-    install_prompt ".claude/commands"
+    install_skill ".claude/skills/generate-book"
 fi
 
 if [ -d ".opencode" ]; then
-    install_prompt ".opencode/commands"
+    install_skill ".opencode/skills/generate-book"
 fi
 
 if [ "$INSTALLED" = false ]; then
     echo "Neither .claude nor .opencode directories found in the current directory."
-    echo "Creating .claude/commands and .opencode/commands by default..."
-    install_prompt ".claude/commands"
-    install_prompt ".opencode/commands"
+    echo "Creating .claude/skills/generate-book and .opencode/skills/generate-book by default..."
+    install_skill ".claude/skills/generate-book"
+    install_skill ".opencode/skills/generate-book"
 fi
 
 echo ""
