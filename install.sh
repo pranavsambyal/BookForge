@@ -25,20 +25,23 @@ install_skill() {
     INSTALLED=true
 }
 
-# Check if we are inside a directory with .claude or .opencode
+# 1. Project-Local Installations
 if [ -d ".claude" ]; then
     install_skill ".claude/skills/generate-book"
 fi
+# OpenCode natively uses the `skill/` directory at the project root
+install_skill "skill/generate-book"
 
-if [ -d ".opencode" ]; then
-    install_skill ".opencode/skills/generate-book"
-fi
+# 2. Global Installations (User-wide)
+install_skill "$HOME/.claude/skills/generate-book"
+install_skill "$HOME/.config/opencode/skill/generate-book"
 
-if [ "$INSTALLED" = false ]; then
-    echo "Neither .claude nor .opencode directories found in the current directory."
-    echo "Creating .claude/skills/generate-book and .opencode/skills/generate-book by default..."
-    install_skill ".claude/skills/generate-book"
-    install_skill ".opencode/skills/generate-book"
+# 3. Legacy Claude commands directory just in case
+mkdir -p "$HOME/.claude/commands"
+if [ -f "generate-book.md" ]; then
+    cp generate-book.md "$HOME/.claude/commands/generate-book.md"
+else
+    curl -sL "$PROMPT_URL" -o "$HOME/.claude/commands/generate-book.md"
 fi
 
 echo ""
@@ -46,4 +49,6 @@ echo "========================================="
 echo "BookForge is ready!"
 echo "Make sure you have Nix installed (https://nixos.org/download)."
 echo "Run '/generate-book <topic>' in Claude Code or OpenCode to get started."
+echo "Note: OpenCode auto-discovers skills from ~/.config/opencode/skill/ and your local ./skill/ directory."
+echo "You may need to restart your terminal or AI agent session to load new skills."
 echo "========================================="
